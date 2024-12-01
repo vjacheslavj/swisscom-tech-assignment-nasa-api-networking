@@ -1,7 +1,7 @@
 package tests;
 
+import io.restassured.RestAssured;
 import utils.ApiUtils;
-
 import java.util.Arrays;
 import java.util.Map;
 
@@ -13,7 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class NasaApiTest {
 
     public void sendRequestToTheNasaApiWithTheDate(String date) {
-        response = ApiUtils.getAstronomyPictureOfDay(date.equals(YESTERDAY) ? ApiUtils.getYesterdayDate() : date);
+        String actualDate = date.equals(YESTERDAY) ? ApiUtils.getYesterdayDate() : date;
+
+        response = RestAssured.given()
+                .queryParam(QUERY_PARAM_DATE, actualDate)
+                .get(NASA_API_BASE_URL + API_KEY);
     }
 
     public void validateResponseCode(int expectedStatusCode) {

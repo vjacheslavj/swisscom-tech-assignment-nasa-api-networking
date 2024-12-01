@@ -6,6 +6,7 @@ import tests.NasaApiTest;
 public class NasaApiSteps {
 
     private final NasaApiTest nasaApiTest = new NasaApiTest();
+
     @Given("I send a request to the NASA API with the {string} date")
     public void iSendARequestToTheNasaApiWithTheDate(String date) {
         nasaApiTest.sendRequestToTheNasaApiWithTheDate(date);

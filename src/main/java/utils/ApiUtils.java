@@ -1,23 +1,33 @@
 package utils;
 
 import io.restassured.response.Response;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 import static constants.Constants.*;
 import static io.restassured.RestAssured.get;
 
 public class ApiUtils {
-    public static Response getAstronomyPictureOfDay(String date) {
-        return get(NASA_API_BASE_URL + AND_DATE + date);
-    }
 
     public static String getYesterdayDate() {
-        return LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_YEAR_MONTH_DAY);
+        return dateFormat.format(calendar.getTime());
     }
 
     public static Response getPublicIp() {
         return get(PUBLIC_IP_API_URL);
+    }
+
+    public static String getTracerouteOutput() {
+        String command;
+        String os = System.getProperty(OS_NAME).toLowerCase();
+        if (os.contains(WINDOWS_OS)) {
+            command = WINDOWS_COMMAND;
+        } else {
+            command = LINUX_MAC_COMMAND;
+        }
+        return command;
     }
 }

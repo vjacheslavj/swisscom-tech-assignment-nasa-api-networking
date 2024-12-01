@@ -4,13 +4,36 @@ import utils.ApiUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
+import java.net.URL;
 
 import static constants.Constants.*;
 import static helper.CommonValues.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class NetworkingTest {
+
+    public void checkIfIHaveAccessToTheInternet() {
+        try {
+            URL url = new URL(TEST_URL_GOOGLE);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod(GET);
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode != HttpURLConnection.HTTP_OK) {
+                throw new RuntimeException("Failed to access the internet. HTTP Response Code: " + responseCode);
+            }
+
+            System.out.println("Successfully connected to the internet.");
+
+        } catch (Exception e) {
+            throw new RuntimeException("Internet access check failed: " + e.getMessage(), e);
+        }
+    }
 
     public void retrieveMyPublicIpAddress() {
         response = ApiUtils.getPublicIp();
@@ -37,13 +60,14 @@ public class NetworkingTest {
     }
 
     public void performATracerouteToIP(String targetIp) {
-        try {
-            Process process = Runtime.getRuntime().exec("traceroute " + targetIp);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            int hopCount = 0;
+        String command = ApiUtils.getTracerouteOutput();
 
-            while ((line = reader.readLine()) != null) {
+        try {
+            Process process = Runtime.getRuntime().exec(command + targetIp);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            hopCount = 0;
+
+            while (reader.readLine() != null) {
                 hopCount++;
             }
             process.waitFor();
