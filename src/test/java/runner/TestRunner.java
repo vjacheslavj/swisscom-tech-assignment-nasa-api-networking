@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = {"steps"},
-        tags = "@NASA_API",
+        tags = "@NASA_API or @NETWORKING",
         plugin = {"pretty", "html:target/cucumber-reports.html"}
 )
 public class TestRunner {
