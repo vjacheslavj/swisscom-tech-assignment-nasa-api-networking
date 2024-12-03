@@ -1,7 +1,5 @@
 package constants;
 
-import java.security.PublicKey;
-
 public class Constants {
 
     /* DATE */
