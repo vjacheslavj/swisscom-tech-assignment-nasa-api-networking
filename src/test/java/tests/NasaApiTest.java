@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.Map;
 
 import static constants.Constants.*;
-import static helper.CommonValues.response;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static utils.CommonValues.*;
 
 public class NasaApiTest {
 

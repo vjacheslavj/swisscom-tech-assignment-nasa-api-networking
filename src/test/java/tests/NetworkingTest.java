@@ -9,8 +9,8 @@ import java.net.InetAddress;
 import java.net.URL;
 
 import static constants.Constants.*;
-import static helper.CommonValues.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static utils.CommonValues.*;
 
 public class NetworkingTest {
 
